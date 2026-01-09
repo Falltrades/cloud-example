@@ -1,0 +1,9 @@
+- name: nginx
+  hosts: all
+  gather_facts: false
+  become: true
+
+  roles:
+    - role: nginx 
+      tags:
+        - always

@@ -1,0 +1,8 @@
+# Ignore files inside directory
+.terraform/
+
+# Ignore specific file
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+.terraform.tfstate.lock.info

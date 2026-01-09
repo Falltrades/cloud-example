@@ -1,0 +1,21 @@
+---
+- name: Update package cache and install Nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Start and enable Nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: Copy index.html to Nginx root directory
+  ansible.builtin.copy:
+    src: files/index.html
+    dest: /var/www/html
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Nginx
