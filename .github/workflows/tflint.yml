@@ -1,0 +1,22 @@
+name: TFLint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  tflint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run TFLint
+        uses: docker://ghcr.io/terraform-linters/tflint:v0.60.0
+        with:
+          args: >
+            --chdir=static-website/
+            --recursive
