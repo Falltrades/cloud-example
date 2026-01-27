@@ -1,6 +1,7 @@
 # Ignore files inside directory
 .terraform/
 __pycache__/
+build/
 
 # Ignore specific file
 terraform.tfstate
