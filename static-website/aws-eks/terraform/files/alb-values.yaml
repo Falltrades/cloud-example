@@ -1,0 +1,9 @@
+clusterName: "${CLUSTER_NAME}"
+serviceAccount:
+  create: false
+  name: "${SERVICE_ACCOUNT_NAME}"
+region: "${AWS_REGION}"
+vpcId: "${VPC_ID}"
+subnets:
+  - "${SUBNET_1}"
+  - "${SUBNET_2}"
