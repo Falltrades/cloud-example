@@ -40,6 +40,48 @@ We choose to use a EC2 instance to showcase the utilization of Ansible along wit
 
 <img src="./misc/architecture.dot.png">
 
+## Infracost
+
+```shell
+ Name                                                       Monthly Qty  Unit                    Monthly Cost   
+
+ module.vpc.aws_nat_gateway.this[0]
+ ├─ NAT gateway                                                     730  hours                         $32.85
+ └─ Data processed                                    Monthly cost depends on usage: $0.045 per GB
+
+ module.alb.aws_lb.this[0]
+ ├─ Application load balancer                                       730  hours                         $16.43
+ └─ Load balancer capacity units                      Monthly cost depends on usage: $5.84 per LCU
+
+ aws_instance.nginx_instance
+ ├─ Instance usage (Linux/UNIX, on-demand, t3.micro)                730  hours                          $7.59
+ └─ root_block_device
+    └─ Storage (general purpose SSD, gp2)                             8  GB                             $0.80
+
+ module.s3_bucket.aws_s3_bucket.this[0]
+ └─ Standard
+    ├─ Storage                                        Monthly cost depends on usage: $0.023 per GB
+    ├─ PUT, COPY, POST, LIST requests                 Monthly cost depends on usage: $0.005 per 1k requests
+    ├─ GET, SELECT, and all other requests            Monthly cost depends on usage: $0.0004 per 1k requests
+    ├─ Select data scanned                            Monthly cost depends on usage: $0.002 per GB
+    └─ Select data returned                           Monthly cost depends on usage: $0.0007 per GB
+
+ OVERALL TOTAL                                                                                        $57.67
+
+*Usage costs can be estimated by updating Infracost Cloud settings, see docs for other options.
+
+──────────────────────────────────
+33 cloud resources were detected:
+∙ 4 were estimated
+∙ 29 were free
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Project                                            ┃ Baseline cost ┃ Usage cost* ┃ Total cost ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━┫
+┃ terraform                                          ┃           $58 ┃           - ┃        $58 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━━━━━┛
+```
+
 ## Helpful informations
 
 https://medium.com/@bisinet/ansible-without-ssh-in-aws-77b5632d1fb1
