@@ -12,3 +12,6 @@ This is an example repository to showcase some IaC usage with different cloud pr
     - [aws-lambda](static-website/aws-lambda)
     - [aws-lightsail](static-website/aws-lightsail)
     - [aws-s3](static-website/aws-s3)
+- html-db-website
+    - [aws-ec2](html-db-website/aws-ec2)
+        - [one-instance](html-db-website/aws-ec2/one-instance)
