@@ -1,0 +1,8 @@
+- name: Docker-compose
+  hosts: all
+  become: true
+
+  roles:
+    - role: docker_compose
+      tags:
+        - always

@@ -1,0 +1,5 @@
+---
+docker_compose_db_user: "{{ lookup('env', 'db_username') }}"
+docker_compose_db_password: "{{ lookup('env', 'db_password') }}"
+docker_compose_db_name: "tasklist_db"
+docker_compose_db_host: "db.demo.internal"
