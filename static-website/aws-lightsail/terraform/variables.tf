@@ -13,6 +13,6 @@ variable "service_name" {
 variable "container_image" {
   description = "Docker image"
   type        = string
-  default     = "ghcr.io/falltrades/cloud-example:nginx"
+  default     = "ghcr.io/falltrades/cloud-example/html:1.0.0"
 }
 

@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "ghcr.io/falltrades/cloud-example:nginx",
+    "Name": "ghcr.io/falltrades/cloud-example/html:1.0.0",
     "Update": "true"
   },
   "Ports": [

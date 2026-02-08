@@ -25,7 +25,7 @@ module "ecs" {
         nginx = {
           cpu       = 512
           memory    = 1024
-          image     = "ghcr.io/falltrades/cloud-example:nginx"
+          image     = "ghcr.io/falltrades/cloud-example/html:1.0.0"
           portMappings = [
             {
               name          = "ecs-nginx"

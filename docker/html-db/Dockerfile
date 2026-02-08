@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.9-slim AS build
 WORKDIR /app
 RUN pip install flask flask-sqlalchemy psycopg2-binary
 COPY . .

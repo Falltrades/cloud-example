@@ -102,7 +102,7 @@ resource "kubernetes_deployment_v1" "nginx" {
       spec {
         container {
           name  = "nginx"
-          image = "ghcr.io/falltrades/cloud-example:nginx"
+          image = "ghcr.io/falltrades/cloud-example/html:1.0.0"
 
           port {
             container_port = 8080

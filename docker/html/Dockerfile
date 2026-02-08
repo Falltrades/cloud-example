@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:alpine3.22
+FROM nginxinc/nginx-unprivileged:alpine3.22 AS build
 COPY index.html /usr/share/nginx/html/index.html
 
 EXPOSE 8080

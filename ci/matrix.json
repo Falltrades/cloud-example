@@ -1,0 +1,24 @@
+[
+  {
+    "name": "html",
+    "build": {
+      "base": "docker.io/nginxinc/nginx-unprivileged:alpine3.22",
+      "context": "./docker/html",
+      "dockerfile": "./docker/html/Dockerfile",
+      "target": "build",
+      "tag": "1.0.0",
+      "latest": true
+    }
+  },
+  {
+    "name": "html-db",
+    "build": {
+      "base": "docker.io/python:3.9-slim",
+      "context": "./docker/html-db",
+      "dockerfile": "./docker/html-db/Dockerfile",
+      "target": "build",
+      "tag": "1.0.0",
+      "latest": true
+    }
+  }
+]
