@@ -5,9 +5,6 @@ This is an example repository containing Terraform and Dockerfile code. It conta
 ## Tree
 ```
 .
-├── docker
-│   ├── Dockerfile
-│   └── index.html
 ├── misc
 │   └── Brainboard.png    # Generated with https://app.brainboard.co
 ├── README.md
