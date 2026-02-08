@@ -1,9 +1,9 @@
-- name: nginx
+- name: Nginx
   hosts: all
   gather_facts: false
   become: true
 
   roles:
-    - role: nginx 
+    - role: nginx
       tags:
         - always

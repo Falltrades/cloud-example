@@ -1,0 +1,45 @@
+name: Infrastructure Linting
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  tflint:
+    name: TFLint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: [static-website, html-db-website]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run TFLint
+        uses: docker://ghcr.io/terraform-linters/tflint:v0.60.0
+        with:
+          args: >
+            --chdir=${{ matrix.directory }}
+            --recursive
+
+  ansible-lint:
+    name: Ansible-lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: [static-website, html-db-website]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Ansible Collections
+        run: ansible-galaxy collection install -r requirements.yml
+
+      - name: Run Ansible-lint
+        uses: ansible/ansible-lint@v25
+        with:
+          args: --show-relpath ${{ matrix.directory }}

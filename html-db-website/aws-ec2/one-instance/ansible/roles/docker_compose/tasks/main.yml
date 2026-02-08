@@ -44,7 +44,7 @@
     group: root
     mode: '0644'
 
-- name: Run docker-compose 
+- name: Run docker-compose
   community.docker.docker_compose_v2:
     project_src: /opt/my_project/
     state: present
