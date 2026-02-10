@@ -16,3 +16,4 @@ This is an example repository to showcase some IaC usage with different cloud pr
     - [aws-ec2](html-db-website/aws-ec2)
         - [one-instance](html-db-website/aws-ec2/one-instance)
         - [two-instances](html-db-website/aws-ec2/two-instances)
+    - [aws-ec2+rds](html-db-website/aws-ec2+rds)

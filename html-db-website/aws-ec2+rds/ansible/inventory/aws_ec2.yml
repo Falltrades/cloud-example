@@ -1,0 +1,22 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1
+
+filters:
+  tag:Project: html-db
+  instance-state-name: running
+
+compose:
+  # This creates a variable called 'tags' containing all AWS tags
+  tags: tags
+  # This creates a direct variable 'instance_name' from the Name tag
+  instance_name: tags.Name
+
+# This creates groups like 'app_instance' and 'db_instance' automatically
+keyed_groups:
+  - key: tags.Name
+    separator: ""
+    prefix: ""
+
+hostnames:
+  - instance-id
