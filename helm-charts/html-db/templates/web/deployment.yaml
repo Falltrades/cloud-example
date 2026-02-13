@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.28
+          command: 
+            - 'sh'
+            - '-c'
+            - "until nc -z {{ .Release.Name }}-db-service 5432; do echo waiting for db; sleep 2; done;"
+      containers:
+      - name: web
+        image: {{ .Values.image.web }}
+        command: ["python", "app.py"]
+        ports:
+        - containerPort: {{ .Values.service.webPort }}
+        envFrom:
+        - secretRef:
+            name: {{ .Release.Name }}-secrets
