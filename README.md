@@ -18,3 +18,4 @@ This is an example repository to showcase some IaC usage with different cloud pr
         - [two-instances](html-db-website/aws-ec2/two-instances)
     - [aws-ec2+rds](html-db-website/aws-ec2+rds)
     - [aws-ecs+rds](html-db-website/aws-ecs+rds)
+    - [aws-eks](html-db-website/aws-eks)
