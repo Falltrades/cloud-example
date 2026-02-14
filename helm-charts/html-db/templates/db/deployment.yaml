@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-db
+spec:
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: {{ .Values.image.db }}
+        ports:
+        - containerPort: {{ .Values.service.dbPort }}
+        envFrom:
+        - secretRef:
+            name: {{ .Release.Name }}-secrets
+        livenessProbe:
+          exec:
+            command: ["pg_isready", "-U", "{{ .Values.db.user }}", "-d", "{{ .Values.db.name }}"]
+          initialDelaySeconds: 5
+          periodSeconds: 5
