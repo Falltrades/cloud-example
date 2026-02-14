@@ -1,0 +1,17 @@
+apiVersion: v1
+entries:
+  html-db:
+  - apiVersion: v2
+    created: "2026-02-14T12:19:59.603902839Z"
+    description: This Helm chart deploy a basic html application using a relational
+      database as backend.
+    digest: a2655643f80b8b9ce63e8f1ca0ddf3ab1f38d3b0d887d8f4ce6ffb0b5f1f35c0
+    maintainers:
+    - name: falltrades
+      url: https://falltrades.github.io/engineering
+    name: html-db
+    type: application
+    urls:
+    - https://github.com/Falltrades/cloud-example/releases/download/html-db-1.0.0/html-db-1.0.0.tgz
+    version: 1.0.0
+generated: "2026-02-14T12:19:59.603909221Z"
