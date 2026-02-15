@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; }
+        .task-item { padding: 10px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h2>My Serverless Tasks</h2>
+    <input type="text" id="taskInput" placeholder="New task...">
+    <button onclick="addTask()">Add</button>
+    <div id="taskList">Loading tasks...</div>
+
+    <script>
+        const API_URL = "${api_url}";
+
+        async function getTasks() {
+            const res = await fetch(API_URL + "tasks");
+            const tasks = await res.json();
+            document.getElementById('taskList').innerHTML = tasks
+                .map(t => `<div class="task-item">#$${t.id}: $${t.content}</div>`)
+                .join('');
+        }
+
+        async function addTask() {
+            const content = document.getElementById('taskInput').value;
+            await fetch(API_URL + "tasks", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content })
+            });
+            document.getElementById('taskInput').value = '';
+            getTasks();
+        }
+
+        getTasks();
+    </script>
+</body>
+</html>

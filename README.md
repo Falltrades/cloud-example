@@ -19,3 +19,4 @@ This is an example repository to showcase some IaC usage with different cloud pr
     - [aws-ec2+rds](html-db-website/aws-ec2+rds)
     - [aws-ecs+rds](html-db-website/aws-ecs+rds)
     - [aws-eks](html-db-website/aws-eks)
+    - [aws-s3+lambda+rds](html-db-website/aws-s3+lambda+rds)
