@@ -90,23 +90,23 @@
             socket.onmessage = (event) => {
                 const data = JSON.parse(event.data);
                 console.log("RECEIVED:", data);
-            
+
                 // 1. Check for the Clear Signal
                 if (data.action === "ui_clear_requested") {
                     console.log("Wiping UI...");
                     document.getElementById('event-log').innerHTML = '';
-                    return; 
+                    return;
                 }
-            
+
                 // 2. Handle History Batch
                 if (data.action === "history") {
                     document.getElementById('event-log').innerHTML = '';
                     if (data.data) {
                         data.data.forEach(item => addEventToLog(item));
                     }
-                } 
+                }
                 // 3. Handle Single Live Events - ONLY if it has event data
-                else if (data.type && data.timestamp) { 
+                else if (data.type && data.timestamp) {
                     addEventToLog(data);
                 }
             };

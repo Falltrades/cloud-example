@@ -10,16 +10,11 @@ This is an example repository containing Terraform code. It contains the code to
 ├── README.md
 └── terraform
     ├── files
-    │   ├── alb-policy.json
-    │   ├── alb-values.yaml
     │   └── html-db-values.yaml
-    ├── iam.tf
     ├── kubernetes.tf          # We are deploying Kubernetes objects here.
     ├── main.tf
-    ├── network.tf
     ├── outputs.tf
     ├── provider.tf
-    ├── security_group.tf
     └── variables.tf
 ```
 
@@ -73,7 +68,7 @@ export TF_VAR_db_password=
 
 Use this command to get merge the kubeconfig with `~/.kube/config`:
 ```shell
-aws eks update-kubeconfig --name nginx-cluster --region us-east-1
+aws eks update-kubeconfig --name html-db --region us-east-1
 ```
 
 You may need to delete `validatingwebhookconfigurations` and `mutatingwebhookconfigurations` during `terraform destroy`.

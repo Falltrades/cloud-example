@@ -1,5 +1,5 @@
 resource "aws_iam_role" "eks_cluster" {
-  name = "nginx-eks-cluster-role"
+  name = "${var.cluster_name}-eks-cluster-role"
   assume_role_policy = data.aws_iam_policy_document.eks_assume_role.json
 }
 
@@ -20,7 +20,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster" {
 }
 
 resource "aws_iam_role" "fargate" {
-  name = "nginx-fargate-role"
+  name = "${var.cluster_name}-fargate-role"
   assume_role_policy = data.aws_iam_policy_document.fargate_assume_role.json
 }
 
@@ -41,7 +41,7 @@ resource "aws_iam_role_policy_attachment" "fargate" {
 }
 
 resource "aws_iam_role" "eks_nodes" {
-  name = "nginx-nodegroup-role"
+  name = "${var.cluster_name}-nodegroup-role"
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
 }
 
@@ -106,20 +106,20 @@ resource "aws_iam_role_policy_attachment" "alb_controller" {
   policy_arn = aws_iam_policy.alb_controller.arn
 }
 
-data "aws_eks_cluster" "nginx" {
-  name = aws_eks_cluster.nginx.name
+data "aws_eks_cluster" "this" {
+  name = aws_eks_cluster.this.name
 }
 
-data "aws_eks_cluster_auth" "nginx" {
-  name = aws_eks_cluster.nginx.name
+data "aws_eks_cluster_auth" "this" {
+  name = aws_eks_cluster.this.name
 }
 
 data "tls_certificate" "eks" {
-  url = data.aws_eks_cluster.nginx.identity[0].oidc[0].issuer
+  url = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
 }
 
 resource "aws_iam_openid_connect_provider" "eks" {
-  url             = data.aws_eks_cluster.nginx.identity[0].oidc[0].issuer
+  url             = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
 }

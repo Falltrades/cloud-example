@@ -1,4 +1,3 @@
-# Wait for the Ingress to be created by Helm, then read its status
 data "kubernetes_ingress_v1" "html_db_ingress" {
   depends_on = [helm_release.html-db]
   metadata {
