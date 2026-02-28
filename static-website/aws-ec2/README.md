@@ -27,13 +27,9 @@ We choose to use a EC2 instance to showcase the utilization of Ansible along wit
 │   └── architecture.dot.png   # Generated with https://github.com/patrickchugh/terravision.
 ├── README.md
 └── terraform
-    ├── iam.tf                 # This is needed for AWS SSM.
-    ├── lb.tf                  # We are using ALB to expose our web page.
     ├── main.tf
-    ├── network.tf             # At least 2 publics subnets in differents AZ are required for ALB creation. We are using NAT gateway for AWS SSM (and for instance internet connectivity).
-    ├── provider.tf
-    ├── s3.tf                  # S3 bucket is mandatory for the utilization of Ansible along with AWS SSM.
-    └── security_group.tf
+    ├── outputs.tf
+    └── provider.tf 
 ```
 
 ## Architecture diagram

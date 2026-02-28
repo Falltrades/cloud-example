@@ -65,4 +65,4 @@
     services:
       - web
     dependencies: false
-  when: "tags.Name == 'app_instance'"
+  when: "tags.Name == 'html-db-app-instance'"
