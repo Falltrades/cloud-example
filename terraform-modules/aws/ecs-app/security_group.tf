@@ -1,4 +1,4 @@
-resource "aws_security_group" "alb_sg" {
+resource "aws_security_group" "alb" {
   vpc_id = module.vpc.vpc_id
 
   ingress {
@@ -15,29 +15,33 @@ resource "aws_security_group" "alb_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Project = var.project
+  }
 }
 
-resource "aws_security_group" "nginx_sg" {
+resource "aws_security_group" "app" {
   vpc_id = module.vpc.vpc_id
 
   ingress {
-    security_groups = [aws_security_group.alb_sg.id]
-    from_port       = 8080
-    to_port         = 8080
+    security_groups = [aws_security_group.alb.id]
+    from_port       = var.app_port
+    to_port         = var.app_port
     protocol        = "tcp"
-    description     = "http from alb"
+    description     = "HTTP from ALB"
   }
 
   egress {
-    cidr_blocks = ["0.0.0.0/0"]
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    description = "nginx_allow_all_egress"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "${var.project}-app-allow-all-egress"
   }
 
   tags = {
-    Name    = "nginx_sg_worker"
-    Project = "nginx"
+    Name    = "${var.project}-app-sg"
+    Project = var.project
   }
 }

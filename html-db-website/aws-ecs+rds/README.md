@@ -9,12 +9,9 @@ This is an example repository containing Terraform code. It contains the code to
 │   └── Brainboard.png    # Generated with https://app.brainboard.co
 ├── README.md
 └── terraform
-    ├── lb.tf             # We are using ALB to expose our web page.
     ├── main.tf
-    ├── network.tf        # At least 2 publics subnets in differents AZ are required for ALB creation. We are using NAT gateway for instance internet connectivity.
     ├── outputs.tf
     ├── provider.tf
-    ├── security_group.tf
     └── variables.tf
 ```
 
