@@ -15,6 +15,12 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "private_subnets" {
+  description = "List of private subnet CIDRs, one per AZ. Provide at least 2 for RDS subnet group compatibility."
+  type        = list(string)
+  default     = ["10.0.1.0/24"]
+}
+
 variable "instance_type" {
   description = "EC2 instance type for the app instance"
   type    = string

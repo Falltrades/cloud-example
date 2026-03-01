@@ -40,6 +40,7 @@
 | <a name="input_app_port"></a> [app\_port](#input\_app\_port) | Port the app instance listens on | `number` | `80` | no |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region | `string` | `"us-east-1"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | EC2 instance type for the app instance | `string` | `"t3.micro"` | no |
+| <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | List of private subnet CIDRs, one per AZ. Provide at least 2 for RDS subnet group compatibility. | `list(string)` | <pre>[<br/>  "10.0.1.0/24"<br/>]</pre> | no |
 | <a name="input_project"></a> [project](#input\_project) | Project name used for naming/tagging | `string` | n/a | yes |
 | <a name="input_s3_bucket_name"></a> [s3\_bucket\_name](#input\_s3\_bucket\_name) | Name for the ansible S3 bucket | `string` | n/a | yes |
 

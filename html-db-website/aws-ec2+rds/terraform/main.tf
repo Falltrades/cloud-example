@@ -1,28 +1,10 @@
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
-resource "aws_instance" "app_instance" {
-  ami                                  = data.aws_ami.ubuntu.id
-  instance_type                        = "t3.micro"
-  availability_zone                    = "us-east-1a"
-  subnet_id                            = module.vpc.private_subnet_objects[0].id
-  vpc_security_group_ids               = [aws_security_group.app_sg.id]
-  associate_public_ip_address          = false
-  iam_instance_profile                 = aws_iam_instance_profile.ssm.name
-  instance_initiated_shutdown_behavior = "terminate"
-
-  tags = {
-    Name    = "app_instance"
-    Project = "html-db"
-  }
+module "web" {                                                                             
+  source          = "../../../terraform-modules/aws/ec2-app"
+  project         = "html-db"
+  app_port        = 8080
+  aws_region      = var.aws_region
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"] # RDS needs at least 2 AZs for the group, even if single instance
+  s3_bucket_name  = "html-db-ansible-bucket"
 }
 
 resource "aws_db_instance" "postgres" {
@@ -43,6 +25,51 @@ resource "aws_db_instance" "postgres" {
 
   tags = {
     Name    = "db_instance"
+    Project = "html-db"
+  }
+}
+
+resource "aws_db_subnet_group" "db_subnets" {
+  name       = "main-db-subnet-group"
+  subnet_ids = [for s in module.web.private_subnet_objects : s.id]
+}
+
+resource "aws_route53_zone" "private" {
+  name = "demo.internal"
+  vpc {
+    vpc_id = module.web.vpc_id
+  }
+}
+
+resource "aws_route53_record" "db" {
+  zone_id = aws_route53_zone.private.zone_id
+  name    = "db.demo.internal"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [aws_db_instance.postgres.address]
+}
+
+resource "aws_security_group" "db_sg" {
+  vpc_id = module.web.vpc_id
+
+  ingress {
+    security_groups = [module.web.app_security_group_id]
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    description     = "PostgreSQL from App Instance"
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    description = "db_allow_all_egress"
+  }
+
+  tags = {
+    Name    = "db_sg_worker"
     Project = "html-db"
   }
 }
