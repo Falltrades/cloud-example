@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event-Driven Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; background: #f0f2f5; color: #333; }
+        .container { max-width: 600px; margin: auto; }
+
+        .button-group {
+            display: flex; gap: 10px; justify-content: center;
+            background: white; padding: 25px; border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 30px;
+        }
+
+        button {
+            border: none; padding: 12px 20px; border-radius: 8px;
+            cursor: pointer; font-weight: bold; color: white;
+            transition: transform 0.1s, background 0.2s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        button:active { transform: scale(0.95); }
+
+        .btn-user { background: #007bff; }
+        .btn-order { background: #28a745; }
+        .btn-payment { background: #ffc107; color: #333; }
+        .btn-clear { background: #dc3545; font-size: 12px; padding: 8px 15px; }
+        button:hover { opacity: 0.9; }
+
+        .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+
+        #event-log { display: flex; flex-direction: column; gap: 12px; }
+
+        .event-card {
+            background: white; padding: 15px; border-radius: 8px;
+            border-left: 6px solid #333; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timestamp { color: #888; font-size: 0.85em; font-family: monospace; }
+        .type-label { font-size: 1.1em; font-weight: bold; display: block; margin-top: 4px; }
+        .status-dot { font-size: 0.8em; margin-right: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">Live System Events</h1>
+
+        <div class="button-group">
+            <button class="btn-user" onclick="sendEvent('New User')">👤 New User</button>
+            <button class="btn-order" onclick="sendEvent('Order Placed')">📦 Order Placed</button>
+            <button class="btn-payment" onclick="sendEvent('Payment Received')">💰 Payment Received</button>
+        </div>
+
+        <div style="text-align: right; margin-bottom: 10px;">
+            <button class="btn-clear" onclick="clearLogs()">🗑️ Clear All</button>
+        </div>
+
+        <div class="log-header">
+            <h3>Event Activity Log</h3>
+            <small id="connection-status" style="color: #666;"><span class="status-dot">○</span> Connecting...</small>
+        </div>
+
+        <div id="event-log"></div>
+    </div>
+
+    <script>
+        // Injected by Terraform
+        const WS_URL = "${api_url}";
+        let socket;
+
+        function connect() {
+            socket = new WebSocket("${api_url}");
+
+            socket.onopen = () => {
+                console.log("Connected! Requesting history...");
+                const status = document.getElementById('connection-status');
+                status.innerHTML = '<span class="status-dot">●</span> Connected';
+                status.style.color = "green";
+
+                // TELL THE SERVER WE ARE READY FOR DATA
+                socket.send(JSON.stringify({ action: "get_history" }));
+            };
+
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log("RECEIVED:", data);
+
+                // 1. Check for the Clear Signal
+                if (data.action === "ui_clear_requested") {
+                    console.log("Wiping UI...");
+                    document.getElementById('event-log').innerHTML = '';
+                    return;
+                }
+
+                // 2. Handle History Batch
+                if (data.action === "history") {
+                    document.getElementById('event-log').innerHTML = '';
+                    if (data.data) {
+                        data.data.forEach(item => addEventToLog(item));
+                    }
+                }
+                // 3. Handle Single Live Events - ONLY if it has event data
+                else if (data.type && data.timestamp) {
+                    addEventToLog(data);
+                }
+            };
+
+            socket.onclose = (e) => {
+                console.log('Socket closed. Reconnecting in 2s...', e.reason);
+                setTimeout(connect, 2000); // Retry logic
+            };
+
+            socket.onerror = (err) => {
+                console.error("Socket encountered error: ", err.message, "Closing socket");
+                socket.close();
+            };
+        }
+
+        function sendEvent(type) {
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    action: "manual_trigger",
+                    event_type: type
+                }));
+            }
+        }
+
+        function clearLogs() {
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({ action: "clear_history" }));
+            }
+        }
+
+        function addEventToLog(data) {
+            const log = document.getElementById('event-log');
+            const card = document.createElement('div');
+            card.className = 'event-card';
+
+            // Dynamic styling based on event type
+            const colors = {
+                "New User": "#007bff",
+                "Order Placed": "#28a745",
+                "Payment Received": "#ffc107"
+            };
+            card.style.borderLeftColor = colors[data.type] || "#333";
+
+            card.innerHTML = `
+                <div class="timestamp">$${data.timestamp}</div>
+                <span class="type-label">$${data.type}</span>
+                <small style="color: #666;">Transaction ID: #$${data.id}</small>
+            `;
+
+            log.prepend(card);
+        }
+
+        // Initialize connection
+        connect();
+    </script>
+</body>
+</html>

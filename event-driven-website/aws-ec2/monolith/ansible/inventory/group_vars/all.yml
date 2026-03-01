@@ -1,0 +1,4 @@
+---
+ansible_connection: amazon.aws.aws_ssm
+ansible_aws_ssm_bucket_name: event-driven-ansible-bucket
+ansible_user: ubuntu

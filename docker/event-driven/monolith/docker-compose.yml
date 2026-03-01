@@ -1,0 +1,24 @@
+services:
+
+  ws-server:
+    image: ghcr.io/falltrades/cloud-example/event-driven-monolith-backend:1.0.0
+    build:
+      context: backend 
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+
+  frontend:
+    image: ghcr.io/falltrades/cloud-example/event-driven-frontend:1.0.0
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    environment:
+      # Locally:  ws://localhost:8080/ws
+      # On EC2:   ws://<alb-dns>/ws  (set WS_URL in your deploy pipeline)
+      - api_url=${WS_URL:-ws://localhost:8080/ws}
+    ports:
+      - "8080:80"
+    depends_on:
+      - ws-server

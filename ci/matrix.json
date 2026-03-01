@@ -20,5 +20,27 @@
       "tag": "1.0.0",
       "latest": true
     }
+  },
+  {
+    "name": "event-driven-monolith-backend",
+    "build": {
+      "base": "docker.io/python:3.12-slim",
+      "context": "./docker/event-driven/monolith/backend",
+      "dockerfile": "./docker/event-driven/monolith/backend/Dockerfile",
+      "target": "build",
+      "tag": "1.0.0",
+      "latest": true
+    }
+  },
+  {
+    "name": "event-driven-frontend",
+    "build": {
+      "base": "docker.io/nginx:alpine3.23",
+      "context": "./docker/event-driven/monolith/frontend",
+      "dockerfile": "./docker/event-driven/monolith/frontend/Dockerfile",
+      "target": "build",
+      "tag": "1.0.0",
+      "latest": true
+    }
   }
 ]

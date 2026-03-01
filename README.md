@@ -21,4 +21,6 @@ This is an example repository to showcase some IaC usage with different cloud pr
     - [aws-eks](html-db-website/aws-eks)
     - [aws-s3+lambda+rds](html-db-website/aws-s3+lambda+rds)
 - event-driven-website
+    - [aws-ec2](event-driven-website/aws-ec2)
+        - [monolith](event-driven-website/aws-ec2/monolith)
     - [aws-s3+lambda+dynamoDB](event-driven-website/aws-s3+lambda+dynamoDB)
