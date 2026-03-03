@@ -32,6 +32,12 @@ variable "memory" {
   default     = 2048
 }
 
+variable "container_cpu" {
+  description = "Container CPU units"
+  type        = number
+  default     = 256
+}
+
 variable "container_memory" {
   description = "Container memory in MB"
   type        = number
@@ -41,6 +47,12 @@ variable "container_memory" {
 variable "container_environment" {
   description = "Environment variables to pass to the container"
   type        = list(object({ name = string, value = string }))
+  default     = []
+}
+
+variable "sidecar_containers" {
+  description = "Sidecar container specifications to pass to the container_definitions"
+  type        = any
   default     = []
 }
 

@@ -17,7 +17,7 @@ services:
     environment:
       # Locally:  ws://localhost:8080/ws
       # On EC2:   ws://<alb-dns>/ws  (set WS_URL in your deploy pipeline)
-      - api_url=${WS_URL:-ws://localhost:8080/ws}
+      - api_url=${WS_URL:-ws://localhost:3001}
     ports:
       - "8080:80"
     depends_on:

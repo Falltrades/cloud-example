@@ -21,22 +21,25 @@ module "ecs" {
       cpu    = var.cpu
       memory = var.memory
 
-      container_definitions = {
-        app = {
-          cpu       = var.cpu
-          memory    = var.container_memory
-          image     = var.container_image
-          environment = var.container_environment
-          portMappings = [
-            {
-              name          = "${var.project}-app"
-              containerPort = var.app_port
-              protocol      = "tcp"
-            }
-          ]
-          readonlyRootFilesystem = false
-        }
-      }
+      container_definitions = merge(
+        {
+          app = {
+            cpu       = var.container_cpu
+            memory    = var.container_memory
+            image     = var.container_image
+            environment = var.container_environment
+            portMappings = [
+              {
+                name          = "${var.project}-app"
+                containerPort = var.app_port
+                protocol      = "tcp"
+              }
+            ]
+            readonlyRootFilesystem = false
+          }
+        },
+        var.sidecar_containers
+      )
 
       subnet_ids         = module.vpc.private_subnets
       security_group_ids = [aws_security_group.app.id]
