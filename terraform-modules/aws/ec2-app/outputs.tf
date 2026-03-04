@@ -1,8 +1,3 @@
-output "website_url" {
-  description = "Public URL via ALB"
-  value       = "http://${module.alb.dns_name}"
-}
-
 output "vpc_id" {
   description = "ID of the VPC created by this module"
   value       = module.vpc.vpc_id
@@ -26,6 +21,21 @@ output "app_instance_private_ip" {
 output "app_security_group_id" {
   description = "Security group ID attached to the app instance"
   value       = aws_security_group.app.id
+}
+
+output "alb_arn" {
+  description = "ARN of the ALB"
+  value       = module.alb.arn
+}
+
+output "alb_dns_name" {
+  description = "DNS name of the ALB"
+  value       = module.alb.dns_name
+}
+
+output "alb_security_group_id" {
+  description = "Security group ID attached to the ALB"
+  value       = aws_security_group.alb.id
 }
 
 output "iam_instance_profile_name" {

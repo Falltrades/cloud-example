@@ -48,6 +48,9 @@
 
 | Name | Description |
 |------|-------------|
+| <a name="output_alb_arn"></a> [alb\_arn](#output\_alb\_arn) | ARN of the ALB |
+| <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | DNS name of the ALB |
+| <a name="output_alb_security_group_id"></a> [alb\_security\_group\_id](#output\_alb\_security\_group\_id) | Security group ID attached to the ALB |
 | <a name="output_app_instance_id"></a> [app\_instance\_id](#output\_app\_instance\_id) | ID of the app EC2 instance |
 | <a name="output_app_instance_private_ip"></a> [app\_instance\_private\_ip](#output\_app\_instance\_private\_ip) | Private IP of the app EC2 instance |
 | <a name="output_app_security_group_id"></a> [app\_security\_group\_id](#output\_app\_security\_group\_id) | Security group ID attached to the app instance |
@@ -55,5 +58,4 @@
 | <a name="output_private_subnet_objects"></a> [private\_subnet\_objects](#output\_private\_subnet\_objects) | Private subnet objects from the VPC module |
 | <a name="output_ubuntu_ami_id"></a> [ubuntu\_ami\_id](#output\_ubuntu\_ami\_id) | Latest Ubuntu 22.04 AMI ID, exposed so callers can reuse it for extra instances |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | ID of the VPC created by this module |
-| <a name="output_website_url"></a> [website\_url](#output\_website\_url) | Public URL via ALB |
 <!-- END_TF_DOCS -->
